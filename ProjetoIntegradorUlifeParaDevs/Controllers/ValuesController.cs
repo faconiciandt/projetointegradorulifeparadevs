@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProjetoIntegradorUlifeParaDevs.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -12,6 +13,8 @@ namespace ProjetoIntegradorUlifeParaDevs.Controllers
         // GET api/values
         public IEnumerable<string> Get()
         {
+            EscolaEntities context = new EscolaEntities();
+            var teste = context.TipoUsuarios.First();
             return new string[] { "value1", "value2" };
         }
 

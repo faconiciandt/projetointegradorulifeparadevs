@@ -1,0 +1,583 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="EscolaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Prova">
+          <Key>
+            <PropertyRef Name="ProvaID" />
+          </Key>
+          <Property Name="ProvaID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nome" Type="varchar(max)" />
+          <Property Name="TurmaID" Type="int" />
+        </EntityType>
+        <EntityType Name="ProvaAluno">
+          <Key>
+            <PropertyRef Name="ProvaAlunoID" />
+          </Key>
+          <Property Name="ProvaAlunoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UsuarioID" Type="int" />
+          <Property Name="ProvaID" Type="int" />
+          <Property Name="Nota" Type="float" />
+        </EntityType>
+        <EntityType Name="Questao">
+          <Key>
+            <PropertyRef Name="QuestaoID" />
+          </Key>
+          <Property Name="QuestaoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProvaID" Type="int" />
+          <Property Name="Enunciado" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="QuestaoAlternativa">
+          <Key>
+            <PropertyRef Name="QuestaoAlternativaID" />
+          </Key>
+          <Property Name="QuestaoAlternativaID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="QuestaoID" Type="int" />
+          <Property Name="Resposta" Type="varchar(max)" />
+          <Property Name="Correta" Type="bit" />
+        </EntityType>
+        <EntityType Name="RespostaQuestaoAluno">
+          <Key>
+            <PropertyRef Name="RespostaQuestaoAlunoID" />
+          </Key>
+          <Property Name="RespostaQuestaoAlunoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="QuestaoID" Type="int" />
+          <Property Name="QuestaoAlternativaID" Type="int" />
+        </EntityType>
+        <EntityType Name="TipoUsuario">
+          <Key>
+            <PropertyRef Name="TipoUsuarioID" />
+          </Key>
+          <Property Name="TipoUsuarioID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nome" Type="varchar" MaxLength="15" />
+        </EntityType>
+        <EntityType Name="Turma">
+          <Key>
+            <PropertyRef Name="TurmaID" />
+          </Key>
+          <Property Name="TurmaID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nome" Type="varchar(max)" />
+          <Property Name="UsuarioID" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'escola.dbo.TurmaAlunos' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="TurmaAlunos">
+          <Property Name="TurmaID" Type="int" />
+          <Property Name="UsuarioID" Type="int" />
+        </EntityType>-->
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="UsuarioID" />
+          </Key>
+          <Property Name="UsuarioID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nome" Type="varchar(max)" />
+          <Property Name="Email" Type="varchar(max)" />
+          <Property Name="Senha" Type="varchar(max)" />
+          <Property Name="TipoUsuarioID" Type="int" />
+        </EntityType>
+        <Association Name="FK__Prova__TurmaID__2E1BDC42">
+          <End Role="Turma" Type="Self.Turma" Multiplicity="0..1" />
+          <End Role="Prova" Type="Self.Prova" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Turma">
+              <PropertyRef Name="TurmaID" />
+            </Principal>
+            <Dependent Role="Prova">
+              <PropertyRef Name="TurmaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ProvaAlun__Prova__37A5467C">
+          <End Role="Prova" Type="Self.Prova" Multiplicity="0..1" />
+          <End Role="ProvaAluno" Type="Self.ProvaAluno" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Prova">
+              <PropertyRef Name="ProvaID" />
+            </Principal>
+            <Dependent Role="ProvaAluno">
+              <PropertyRef Name="ProvaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ProvaAlun__Usuar__36B12243">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
+          <End Role="ProvaAluno" Type="Self.ProvaAluno" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="UsuarioID" />
+            </Principal>
+            <Dependent Role="ProvaAluno">
+              <PropertyRef Name="UsuarioID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Questao__ProvaID__30F848ED">
+          <End Role="Prova" Type="Self.Prova" Multiplicity="0..1" />
+          <End Role="Questao" Type="Self.Questao" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Prova">
+              <PropertyRef Name="ProvaID" />
+            </Principal>
+            <Dependent Role="Questao">
+              <PropertyRef Name="ProvaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__QuestaoAl__Quest__33D4B598">
+          <End Role="Questao" Type="Self.Questao" Multiplicity="0..1" />
+          <End Role="QuestaoAlternativa" Type="Self.QuestaoAlternativa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Questao">
+              <PropertyRef Name="QuestaoID" />
+            </Principal>
+            <Dependent Role="QuestaoAlternativa">
+              <PropertyRef Name="QuestaoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__RespostaQ__Quest__3A81B327">
+          <End Role="Questao" Type="Self.Questao" Multiplicity="0..1" />
+          <End Role="RespostaQuestaoAluno" Type="Self.RespostaQuestaoAluno" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Questao">
+              <PropertyRef Name="QuestaoID" />
+            </Principal>
+            <Dependent Role="RespostaQuestaoAluno">
+              <PropertyRef Name="QuestaoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__RespostaQ__Quest__3B75D760">
+          <End Role="QuestaoAlternativa" Type="Self.QuestaoAlternativa" Multiplicity="0..1" />
+          <End Role="RespostaQuestaoAluno" Type="Self.RespostaQuestaoAluno" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="QuestaoAlternativa">
+              <PropertyRef Name="QuestaoAlternativaID" />
+            </Principal>
+            <Dependent Role="RespostaQuestaoAluno">
+              <PropertyRef Name="QuestaoAlternativaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Turma__UsuarioID__29572725">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
+          <End Role="Turma" Type="Self.Turma" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="UsuarioID" />
+            </Principal>
+            <Dependent Role="Turma">
+              <PropertyRef Name="UsuarioID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Usuario__TipoUsu__267ABA7A">
+          <End Role="TipoUsuario" Type="Self.TipoUsuario" Multiplicity="0..1" />
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoUsuario">
+              <PropertyRef Name="TipoUsuarioID" />
+            </Principal>
+            <Dependent Role="Usuario">
+              <PropertyRef Name="TipoUsuarioID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="EscolaModelStoreContainer">
+          <EntitySet Name="Prova" EntityType="Self.Prova" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProvaAluno" EntityType="Self.ProvaAluno" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Questao" EntityType="Self.Questao" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QuestaoAlternativa" EntityType="Self.QuestaoAlternativa" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RespostaQuestaoAluno" EntityType="Self.RespostaQuestaoAluno" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TipoUsuario" EntityType="Self.TipoUsuario" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Turma" EntityType="Self.Turma" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Prova__TurmaID__2E1BDC42" Association="Self.FK__Prova__TurmaID__2E1BDC42">
+            <End Role="Turma" EntitySet="Turma" />
+            <End Role="Prova" EntitySet="Prova" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ProvaAlun__Prova__37A5467C" Association="Self.FK__ProvaAlun__Prova__37A5467C">
+            <End Role="Prova" EntitySet="Prova" />
+            <End Role="ProvaAluno" EntitySet="ProvaAluno" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ProvaAlun__Usuar__36B12243" Association="Self.FK__ProvaAlun__Usuar__36B12243">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="ProvaAluno" EntitySet="ProvaAluno" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Questao__ProvaID__30F848ED" Association="Self.FK__Questao__ProvaID__30F848ED">
+            <End Role="Prova" EntitySet="Prova" />
+            <End Role="Questao" EntitySet="Questao" />
+          </AssociationSet>
+          <AssociationSet Name="FK__QuestaoAl__Quest__33D4B598" Association="Self.FK__QuestaoAl__Quest__33D4B598">
+            <End Role="Questao" EntitySet="Questao" />
+            <End Role="QuestaoAlternativa" EntitySet="QuestaoAlternativa" />
+          </AssociationSet>
+          <AssociationSet Name="FK__RespostaQ__Quest__3A81B327" Association="Self.FK__RespostaQ__Quest__3A81B327">
+            <End Role="Questao" EntitySet="Questao" />
+            <End Role="RespostaQuestaoAluno" EntitySet="RespostaQuestaoAluno" />
+          </AssociationSet>
+          <AssociationSet Name="FK__RespostaQ__Quest__3B75D760" Association="Self.FK__RespostaQ__Quest__3B75D760">
+            <End Role="QuestaoAlternativa" EntitySet="QuestaoAlternativa" />
+            <End Role="RespostaQuestaoAluno" EntitySet="RespostaQuestaoAluno" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Turma__UsuarioID__29572725" Association="Self.FK__Turma__UsuarioID__29572725">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Turma" EntitySet="Turma" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Usuario__TipoUsu__267ABA7A" Association="Self.FK__Usuario__TipoUsu__267ABA7A">
+            <End Role="TipoUsuario" EntitySet="TipoUsuario" />
+            <End Role="Usuario" EntitySet="Usuario" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="EscolaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Prova">
+          <Key>
+            <PropertyRef Name="ProvaID" />
+          </Key>
+          <Property Name="ProvaID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nome" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="TurmaID" Type="Int32" />
+          <NavigationProperty Name="Turma" Relationship="Self.FK__Prova__TurmaID__2E1BDC42" FromRole="Prova" ToRole="Turma" />
+          <NavigationProperty Name="ProvaAlunoes" Relationship="Self.FK__ProvaAlun__Prova__37A5467C" FromRole="Prova" ToRole="ProvaAluno" />
+          <NavigationProperty Name="Questaos" Relationship="Self.FK__Questao__ProvaID__30F848ED" FromRole="Prova" ToRole="Questao" />
+        </EntityType>
+        <EntityType Name="ProvaAluno">
+          <Key>
+            <PropertyRef Name="ProvaAlunoID" />
+          </Key>
+          <Property Name="ProvaAlunoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UsuarioID" Type="Int32" />
+          <Property Name="ProvaID" Type="Int32" />
+          <Property Name="Nota" Type="Double" />
+          <NavigationProperty Name="Prova" Relationship="Self.FK__ProvaAlun__Prova__37A5467C" FromRole="ProvaAluno" ToRole="Prova" />
+          <NavigationProperty Name="Usuario" Relationship="Self.FK__ProvaAlun__Usuar__36B12243" FromRole="ProvaAluno" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="Questao">
+          <Key>
+            <PropertyRef Name="QuestaoID" />
+          </Key>
+          <Property Name="QuestaoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProvaID" Type="Int32" />
+          <Property Name="Enunciado" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Prova" Relationship="Self.FK__Questao__ProvaID__30F848ED" FromRole="Questao" ToRole="Prova" />
+          <NavigationProperty Name="QuestaoAlternativas" Relationship="Self.FK__QuestaoAl__Quest__33D4B598" FromRole="Questao" ToRole="QuestaoAlternativa" />
+          <NavigationProperty Name="RespostaQuestaoAlunoes" Relationship="Self.FK__RespostaQ__Quest__3A81B327" FromRole="Questao" ToRole="RespostaQuestaoAluno" />
+        </EntityType>
+        <EntityType Name="QuestaoAlternativa">
+          <Key>
+            <PropertyRef Name="QuestaoAlternativaID" />
+          </Key>
+          <Property Name="QuestaoAlternativaID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QuestaoID" Type="Int32" />
+          <Property Name="Resposta" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Correta" Type="Boolean" />
+          <NavigationProperty Name="Questao" Relationship="Self.FK__QuestaoAl__Quest__33D4B598" FromRole="QuestaoAlternativa" ToRole="Questao" />
+          <NavigationProperty Name="RespostaQuestaoAlunoes" Relationship="Self.FK__RespostaQ__Quest__3B75D760" FromRole="QuestaoAlternativa" ToRole="RespostaQuestaoAluno" />
+        </EntityType>
+        <EntityType Name="RespostaQuestaoAluno">
+          <Key>
+            <PropertyRef Name="RespostaQuestaoAlunoID" />
+          </Key>
+          <Property Name="RespostaQuestaoAlunoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QuestaoID" Type="Int32" />
+          <Property Name="QuestaoAlternativaID" Type="Int32" />
+          <NavigationProperty Name="Questao" Relationship="Self.FK__RespostaQ__Quest__3A81B327" FromRole="RespostaQuestaoAluno" ToRole="Questao" />
+          <NavigationProperty Name="QuestaoAlternativa" Relationship="Self.FK__RespostaQ__Quest__3B75D760" FromRole="RespostaQuestaoAluno" ToRole="QuestaoAlternativa" />
+        </EntityType>
+        <EntityType Name="TipoUsuario">
+          <Key>
+            <PropertyRef Name="TipoUsuarioID" />
+          </Key>
+          <Property Name="TipoUsuarioID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nome" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Usuarios" Relationship="Self.FK__Usuario__TipoUsu__267ABA7A" FromRole="TipoUsuario" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="Turma">
+          <Key>
+            <PropertyRef Name="TurmaID" />
+          </Key>
+          <Property Name="TurmaID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nome" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="UsuarioID" Type="Int32" />
+          <NavigationProperty Name="Provas" Relationship="Self.FK__Prova__TurmaID__2E1BDC42" FromRole="Turma" ToRole="Prova" />
+          <NavigationProperty Name="Usuario" Relationship="Self.FK__Turma__UsuarioID__29572725" FromRole="Turma" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="UsuarioID" />
+          </Key>
+          <Property Name="UsuarioID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nome" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Senha" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="TipoUsuarioID" Type="Int32" />
+          <NavigationProperty Name="ProvaAlunoes" Relationship="Self.FK__ProvaAlun__Usuar__36B12243" FromRole="Usuario" ToRole="ProvaAluno" />
+          <NavigationProperty Name="TipoUsuario" Relationship="Self.FK__Usuario__TipoUsu__267ABA7A" FromRole="Usuario" ToRole="TipoUsuario" />
+          <NavigationProperty Name="Turmas" Relationship="Self.FK__Turma__UsuarioID__29572725" FromRole="Usuario" ToRole="Turma" />
+        </EntityType>
+        <Association Name="FK__Prova__TurmaID__2E1BDC42">
+          <End Role="Turma" Type="Self.Turma" Multiplicity="0..1" />
+          <End Role="Prova" Type="Self.Prova" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Turma">
+              <PropertyRef Name="TurmaID" />
+            </Principal>
+            <Dependent Role="Prova">
+              <PropertyRef Name="TurmaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ProvaAlun__Prova__37A5467C">
+          <End Role="Prova" Type="Self.Prova" Multiplicity="0..1" />
+          <End Role="ProvaAluno" Type="Self.ProvaAluno" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Prova">
+              <PropertyRef Name="ProvaID" />
+            </Principal>
+            <Dependent Role="ProvaAluno">
+              <PropertyRef Name="ProvaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Questao__ProvaID__30F848ED">
+          <End Role="Prova" Type="Self.Prova" Multiplicity="0..1" />
+          <End Role="Questao" Type="Self.Questao" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Prova">
+              <PropertyRef Name="ProvaID" />
+            </Principal>
+            <Dependent Role="Questao">
+              <PropertyRef Name="ProvaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ProvaAlun__Usuar__36B12243">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
+          <End Role="ProvaAluno" Type="Self.ProvaAluno" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="UsuarioID" />
+            </Principal>
+            <Dependent Role="ProvaAluno">
+              <PropertyRef Name="UsuarioID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__QuestaoAl__Quest__33D4B598">
+          <End Role="Questao" Type="Self.Questao" Multiplicity="0..1" />
+          <End Role="QuestaoAlternativa" Type="Self.QuestaoAlternativa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Questao">
+              <PropertyRef Name="QuestaoID" />
+            </Principal>
+            <Dependent Role="QuestaoAlternativa">
+              <PropertyRef Name="QuestaoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__RespostaQ__Quest__3A81B327">
+          <End Role="Questao" Type="Self.Questao" Multiplicity="0..1" />
+          <End Role="RespostaQuestaoAluno" Type="Self.RespostaQuestaoAluno" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Questao">
+              <PropertyRef Name="QuestaoID" />
+            </Principal>
+            <Dependent Role="RespostaQuestaoAluno">
+              <PropertyRef Name="QuestaoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__RespostaQ__Quest__3B75D760">
+          <End Role="QuestaoAlternativa" Type="Self.QuestaoAlternativa" Multiplicity="0..1" />
+          <End Role="RespostaQuestaoAluno" Type="Self.RespostaQuestaoAluno" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="QuestaoAlternativa">
+              <PropertyRef Name="QuestaoAlternativaID" />
+            </Principal>
+            <Dependent Role="RespostaQuestaoAluno">
+              <PropertyRef Name="QuestaoAlternativaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Usuario__TipoUsu__267ABA7A">
+          <End Role="TipoUsuario" Type="Self.TipoUsuario" Multiplicity="0..1" />
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoUsuario">
+              <PropertyRef Name="TipoUsuarioID" />
+            </Principal>
+            <Dependent Role="Usuario">
+              <PropertyRef Name="TipoUsuarioID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Turma__UsuarioID__29572725">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
+          <End Role="Turma" Type="Self.Turma" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="UsuarioID" />
+            </Principal>
+            <Dependent Role="Turma">
+              <PropertyRef Name="UsuarioID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="escolaEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Provas" EntityType="Self.Prova" />
+          <EntitySet Name="ProvaAlunoes" EntityType="Self.ProvaAluno" />
+          <EntitySet Name="Questaos" EntityType="Self.Questao" />
+          <EntitySet Name="QuestaoAlternativas" EntityType="Self.QuestaoAlternativa" />
+          <EntitySet Name="RespostaQuestaoAlunoes" EntityType="Self.RespostaQuestaoAluno" />
+          <EntitySet Name="TipoUsuarios" EntityType="Self.TipoUsuario" />
+          <EntitySet Name="Turmas" EntityType="Self.Turma" />
+          <EntitySet Name="Usuarios" EntityType="Self.Usuario" />
+          <AssociationSet Name="FK__Prova__TurmaID__2E1BDC42" Association="Self.FK__Prova__TurmaID__2E1BDC42">
+            <End Role="Turma" EntitySet="Turmas" />
+            <End Role="Prova" EntitySet="Provas" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ProvaAlun__Prova__37A5467C" Association="Self.FK__ProvaAlun__Prova__37A5467C">
+            <End Role="Prova" EntitySet="Provas" />
+            <End Role="ProvaAluno" EntitySet="ProvaAlunoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Questao__ProvaID__30F848ED" Association="Self.FK__Questao__ProvaID__30F848ED">
+            <End Role="Prova" EntitySet="Provas" />
+            <End Role="Questao" EntitySet="Questaos" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ProvaAlun__Usuar__36B12243" Association="Self.FK__ProvaAlun__Usuar__36B12243">
+            <End Role="Usuario" EntitySet="Usuarios" />
+            <End Role="ProvaAluno" EntitySet="ProvaAlunoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__QuestaoAl__Quest__33D4B598" Association="Self.FK__QuestaoAl__Quest__33D4B598">
+            <End Role="Questao" EntitySet="Questaos" />
+            <End Role="QuestaoAlternativa" EntitySet="QuestaoAlternativas" />
+          </AssociationSet>
+          <AssociationSet Name="FK__RespostaQ__Quest__3A81B327" Association="Self.FK__RespostaQ__Quest__3A81B327">
+            <End Role="Questao" EntitySet="Questaos" />
+            <End Role="RespostaQuestaoAluno" EntitySet="RespostaQuestaoAlunoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__RespostaQ__Quest__3B75D760" Association="Self.FK__RespostaQ__Quest__3B75D760">
+            <End Role="QuestaoAlternativa" EntitySet="QuestaoAlternativas" />
+            <End Role="RespostaQuestaoAluno" EntitySet="RespostaQuestaoAlunoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Usuario__TipoUsu__267ABA7A" Association="Self.FK__Usuario__TipoUsu__267ABA7A">
+            <End Role="TipoUsuario" EntitySet="TipoUsuarios" />
+            <End Role="Usuario" EntitySet="Usuarios" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Turma__UsuarioID__29572725" Association="Self.FK__Turma__UsuarioID__29572725">
+            <End Role="Usuario" EntitySet="Usuarios" />
+            <End Role="Turma" EntitySet="Turmas" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="EscolaModelStoreContainer" CdmEntityContainer="escolaEntities">
+          <EntitySetMapping Name="Provas">
+            <EntityTypeMapping TypeName="EscolaModel.Prova">
+              <MappingFragment StoreEntitySet="Prova">
+                <ScalarProperty Name="ProvaID" ColumnName="ProvaID" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="TurmaID" ColumnName="TurmaID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProvaAlunoes">
+            <EntityTypeMapping TypeName="EscolaModel.ProvaAluno">
+              <MappingFragment StoreEntitySet="ProvaAluno">
+                <ScalarProperty Name="ProvaAlunoID" ColumnName="ProvaAlunoID" />
+                <ScalarProperty Name="UsuarioID" ColumnName="UsuarioID" />
+                <ScalarProperty Name="ProvaID" ColumnName="ProvaID" />
+                <ScalarProperty Name="Nota" ColumnName="Nota" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Questaos">
+            <EntityTypeMapping TypeName="EscolaModel.Questao">
+              <MappingFragment StoreEntitySet="Questao">
+                <ScalarProperty Name="QuestaoID" ColumnName="QuestaoID" />
+                <ScalarProperty Name="ProvaID" ColumnName="ProvaID" />
+                <ScalarProperty Name="Enunciado" ColumnName="Enunciado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QuestaoAlternativas">
+            <EntityTypeMapping TypeName="EscolaModel.QuestaoAlternativa">
+              <MappingFragment StoreEntitySet="QuestaoAlternativa">
+                <ScalarProperty Name="QuestaoAlternativaID" ColumnName="QuestaoAlternativaID" />
+                <ScalarProperty Name="QuestaoID" ColumnName="QuestaoID" />
+                <ScalarProperty Name="Resposta" ColumnName="Resposta" />
+                <ScalarProperty Name="Correta" ColumnName="Correta" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RespostaQuestaoAlunoes">
+            <EntityTypeMapping TypeName="EscolaModel.RespostaQuestaoAluno">
+              <MappingFragment StoreEntitySet="RespostaQuestaoAluno">
+                <ScalarProperty Name="RespostaQuestaoAlunoID" ColumnName="RespostaQuestaoAlunoID" />
+                <ScalarProperty Name="QuestaoID" ColumnName="QuestaoID" />
+                <ScalarProperty Name="QuestaoAlternativaID" ColumnName="QuestaoAlternativaID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TipoUsuarios">
+            <EntityTypeMapping TypeName="EscolaModel.TipoUsuario">
+              <MappingFragment StoreEntitySet="TipoUsuario">
+                <ScalarProperty Name="TipoUsuarioID" ColumnName="TipoUsuarioID" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Turmas">
+            <EntityTypeMapping TypeName="EscolaModel.Turma">
+              <MappingFragment StoreEntitySet="Turma">
+                <ScalarProperty Name="TurmaID" ColumnName="TurmaID" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="UsuarioID" ColumnName="UsuarioID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Usuarios">
+            <EntityTypeMapping TypeName="EscolaModel.Usuario">
+              <MappingFragment StoreEntitySet="Usuario">
+                <ScalarProperty Name="UsuarioID" ColumnName="UsuarioID" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Senha" ColumnName="Senha" />
+                <ScalarProperty Name="TipoUsuarioID" ColumnName="TipoUsuarioID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
