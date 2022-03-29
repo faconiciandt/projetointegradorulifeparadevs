@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 
 namespace ProjetoIntegradorUlifeParaDevs.Repositories
@@ -16,6 +17,14 @@ namespace ProjetoIntegradorUlifeParaDevs.Repositories
         {
             return _context.Usuarios.Where(x => x.Email.ToLower() == username.ToLower()
                                 && x.Senha == password).FirstOrDefault();
+        }
+
+        public List<Usuario> BuscarUsuarioPorTipo(int tipoUsuarioId)
+        {
+            return _context.Usuarios
+                .Where(x => x.TipoUsuarioID == tipoUsuarioId)
+                .Include(x => x.TipoUsuario)
+                .ToList();
         }
     }
 }
