@@ -197,12 +197,14 @@
     <Compile Include="Repositories\ProvaAluno.cs">
       <DependentUpon>Escola.tt</DependentUpon>
     </Compile>
+    <Compile Include="Repositories\ProvaRepository.cs" />
     <Compile Include="Repositories\Questao.cs">
       <DependentUpon>Escola.tt</DependentUpon>
     </Compile>
     <Compile Include="Repositories\QuestaoAlternativa.cs">
       <DependentUpon>Escola.tt</DependentUpon>
     </Compile>
+    <Compile Include="Repositories\QuestaoRepository.cs" />
     <Compile Include="Repositories\RespostaQuestaoAluno.cs">
       <DependentUpon>Escola.tt</DependentUpon>
     </Compile>
@@ -212,9 +214,11 @@
     <Compile Include="Repositories\Turma.cs">
       <DependentUpon>Escola.tt</DependentUpon>
     </Compile>
+    <Compile Include="Repositories\TurmaRepository.cs" />
     <Compile Include="Repositories\Usuario.cs">
       <DependentUpon>Escola.tt</DependentUpon>
     </Compile>
+    <Compile Include="Repositories\UsuarioRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
