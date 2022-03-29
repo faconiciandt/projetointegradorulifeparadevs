@@ -74,3 +74,9 @@ CREATE TABLE RespostaQuestaoAluno(
 	FOREIGN KEY (QuestaoID) REFERENCES Questao(QuestaoID),
 	FOREIGN KEY (QuestaoAlternativaID) REFERENCES QuestaoAlternativa(QuestaoAlternativaID)
 	);
+
+INSERT INTO TipoUsuario (Nome) VALUES ('Aluno')
+INSERT INTO TipoUsuario (Nome) VALUES ('Professor')
+
+INSERT INTO Usuario (Nome, Email, Senha, TipoUsuarioID) VALUES ('João da Silva', 'joaosilva@anima.com.br', '289160db0d9f39f9ae1754c4ec9c16f90b50e32e09c5fb5481ae642b3d3d1a36', 1)
+INSERT INTO Usuario (Nome, Email, Senha, TipoUsuarioID) VALUES ('Maria da Silva', 'mariasilva@anima.com.br', '289160db0d9f39f9ae1754c4ec9c16f90b50e32e09c5fb5481ae642b3d3d1a36', 2)
