@@ -9,13 +9,14 @@
 
 namespace ProjetoIntegradorUlifeParaDevs.Repositories
 {
+    using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class EscolaEntities : DbContext
+    public partial class EscolaContext : DbContext
     {
-        public EscolaEntities()
-            : base("name=escolaEntities")
+        public EscolaContext()
+            : base("name=EscolaContext")
         {
         }
     

@@ -13,7 +13,7 @@ namespace ProjetoIntegradorUlifeParaDevs.Controllers
         // GET api/values
         public IEnumerable<string> Get()
         {
-            EscolaEntities context = new EscolaEntities();
+            EscolaContext context = new EscolaContext();
             var teste = context.TipoUsuarios.First();
             return new string[] { "value1", "value2" };
         }

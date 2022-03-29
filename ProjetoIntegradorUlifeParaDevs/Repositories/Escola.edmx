@@ -430,7 +430,7 @@ warning 6013: The table/view 'escola.dbo.TurmaAlunos' does not have a primary ke
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="escolaEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="EscolaContext" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Provas" EntityType="Self.Prova" />
           <EntitySet Name="ProvaAlunoes" EntityType="Self.ProvaAluno" />
           <EntitySet Name="Questaos" EntityType="Self.Questao" />
@@ -481,7 +481,7 @@ warning 6013: The table/view 'escola.dbo.TurmaAlunos' does not have a primary ke
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="EscolaModelStoreContainer" CdmEntityContainer="escolaEntities">
+        <EntityContainerMapping StorageEntityContainer="EscolaModelStoreContainer" CdmEntityContainer="EscolaContext">
           <EntitySetMapping Name="Provas">
             <EntityTypeMapping TypeName="EscolaModel.Prova">
               <MappingFragment StoreEntitySet="Prova">
