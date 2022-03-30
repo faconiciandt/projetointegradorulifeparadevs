@@ -29,7 +29,9 @@ CREATE TABLE Turma(
 CREATE TABLE TurmaAlunos(
 	TurmaID INT,
 	UsuarioID INT,
-	CONSTRAINT UC_TurmaAlunosID UNIQUE (TurmaID,UsuarioID)
+	CONSTRAINT UC_TurmaAlunosID UNIQUE (TurmaID,UsuarioID),
+	FOREIGN KEY (UsuarioID) REFERENCES Usuario(UsuarioID),
+	FOREIGN KEY (TurmaID) REFERENCES Turma(TurmaID)
 	);
 
 CREATE TABLE Prova(
